@@ -1,0 +1,483 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async="async" src="https://www.googletagmanager.com/gtag/js?id=GTM-NHPFZR5F"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'GTM-NHPFZR5F');
+    </script>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible"/>
+<meta content="website" property="og:type"/>
+<meta content="XS語法" property="og:site_name"/>
+<meta content="https://xshelp.xq.com.tw/XSHelp/Content/Images/png-07-xs-155-90.png" property="og:image"/>
+<meta content="ReadTicks(系統函數) - XS語法" property="og:title"/>
+<meta content="讀取自上次腳本執行後到目前為止的所有 Tick 成交資料本次執行更新的資料筆數 = ReadTicks ( 輸出儲存Tick資料的二維陣列, 輸出最後一筆讀到的Tick序號 ) ;回測在1分鐘頻率時，不支援模擬逐筆洗價" property="og:description"/>
+<link href="/XSHelp/Content/Images/favicon.ico" rel="icon" type="image/ico"/>
+<link href="/XSHelp/Content/css?v=MmAetLgQWTpj53h5C1K54227FFaG9xOGVb-qgk1DRGE1" rel="stylesheet"/>
+<script type="text/javascript">
+        // todo: js 參數替換
+        gConfig = {
+            site_path: "/XSHelp/",
+            site_url: "http://xshelp.xq.com.tw/",
+            djsite_url: "http://jv-testweb/",
+            url_suffix: "",
+            runat_asp: "1",
+            d: ""
+        };
+    </script>
+<script src="/XSHelp/bundles/jquery?v=14H8EzIR27VT10jKdQjUdjivbIr5qhF08VKu4RwT7rI1"></script>
+</head>
+<body>
+<!-- Google Tag Manager -->
+<noscript>
+<iframe height="0" src="//www.googletagmanager.com/ns.html?id=GTM-WMXRLD" style="display:none;visibility:hidden" width="0"></iframe>
+</noscript>
+<script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WMXRLD');</script>
+<!-- End Google Tag Manager -->
+<div class="clearfix" id="container">
+<div id="help-main">
+<div class="menu_side">
+<div class="xq_logo">
+<a href="https://www.xq.com.tw/">
+<img src="/XSHelp/Content/Images/png-xsh-180-60.png"/>
+</a>
+</div>
+<div class="help_logo">
+<img src="/XSHelp/Content/Images/png-07-xs-155-90.png"/>
+</div>
+<script charset="UTF-8" src="/XSHelp/Scripts/util.string.js" type="text/javascript"></script>
+<script charset="UTF-8" src="/XSHelp/Scripts/jmoneyui.autolist.js" type="text/javascript"></script>
+<script charset="UTF-8" src="/XSHelp/Scripts/util.onPos.js" type="text/javascript"></script>
+<script charset="UTF-8" src="/XSHelp/Scripts/util.onRange.js" type="text/javascript"></script>
+<link href="/XSHelp/Content/jmoneyui.autolist.css" rel="stylesheet" type="text/css"/>
+<div class="search">
+<input class="inputarea default" type="text" value="函數、關鍵字或欄位"/>
+<button class="inputSearch"></button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var cookie_key = 'search_record';
+        $('.inputarea').autolist({
+            source: function (req, res) {
+                $.getJSON($.xshelp.genDJPath(gConfig['site_path'] + 'rest', { a: encodeURIComponent(req.term) }), null, function (data) {
+                    var x = $.map(data, function (val, i) {
+                        return {
+                            label: cText(val),
+                            value: $.xshelp.genDJPath(gConfig['site_path'] + 'index', { HelpName: encodeURIComponent(val['name']), group: val['Description'] })
+                        };
+                    });
+                    res(x);
+                });
+            },
+            select: function (event, ui) {
+                var val = $(this).val();
+                var url = $.xshelp.genDJPath(gConfig['site_path'] + 'search', { a: encodeURIComponent(val) });
+                $.cookie(cookie_key, decodeURIComponent(url), { secure: true });
+                window.location = ui.item.value;
+            },
+            directEnter: function (event, ui) {
+                var keyword = $(this).val();
+                if (typeof keyword == 'string' && keyword != '') {
+                    var url = $.xshelp.genDJPath(gConfig['site_path'] + 'search', { a: encodeURIComponent(keyword) });
+                    $.cookie(cookie_key, decodeURIComponent(url), { secure: true });
+                    window.location = url;
+                }
+            },
+            dataMax: 50
+        });
+
+        $('.inputSearch').click(function () {
+            var keyword = $('.inputarea').val();
+            if (typeof keyword == 'string' && keyword != '') {
+                var url = $.xshelp.genDJPath(gConfig['site_path'] + 'search', { a: encodeURIComponent(keyword) });
+                $.cookie(cookie_key, decodeURIComponent(url), { secure: true });
+                window.location = url;
+            }
+        });
+
+        function cText(obj) {
+            if (/^1/.test(obj['categoryid'])) {
+                return obj['name'] + '(' + obj['father'] + ')';
+            }
+            if (/^(2|3)/.test(obj['categoryid'])) {
+                //                var str = (obj['ename'])? obj['ename'] : obj['abbrev'];
+                return obj['name'] + '(' + obj['father'] + ')';
+            }
+            if (/^4/.test(obj['categoryid'])) {
+                return obj['name'] + '(' + obj['father'] + ')';
+            }
+        }
+    })();
+
+</script>
+<div id="cssmenu">
+<ul>
+<li>
+<a href="javascript:void(0);"><span>檢視紀錄</span></a>
+<ul></ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>關鍵字</span></a>
+<ul>
+<li class="even">
+<a href="/XSHelp/lists?a=SKIPWORD">忽略字</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=CONSTANT">常數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=CONTROLFLOW">流程控制</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=DECLARATION">宣告</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>內建函數</span></a>
+<ul>
+<li class="even">
+<a href="/XSHelp/lists?a=GENERALFUNC">一般函數</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=TIMEFUNC">時間函數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=DATEFUNC">日期函數</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=STRINGFUNC">字串函數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=NUMBERFUNC">數學函數</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FIELDFUNC">欄位函數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=ARRAYFUNC">陣列函數</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TRANSACTIONFUNC">交易函數</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>系統函數</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=PRICEGETFUNC">價格取得</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=PRICECULFUNC">價格計算</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=PRICERELFUNC">價格關係</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TECHINDEXFUNC">技術指標</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=DATERELFUNC">日期相關</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TRANSACTIONRELFUNC">交易相關</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=STATSFUNC">統計分析</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TRENDFUNC">趨勢分析</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=LOGICFUNC">邏輯判斷</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FUTUREFUNC">期權相關</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FREQUENCYFUNC">跨頻率</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=ARRAYSYSFUNC">Array函數</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=VOLUMERELFUNC">量能相關</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>報價欄位</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=QOFTEN">常用</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=QPRICE">價格</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=QVOLUME">量能</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=QFINANCE">財務</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=QMARKET">市場統計</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=QOPTION">期權</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=QFIVE">五檔統計</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>資料欄位</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=TOFTEN">常用</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=TPRICE">價格</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TVOLUME">量能</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TCHIP">籌碼</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=TBASIC">基本</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TEVENT">事件</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TMARKET">市場統計</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TOPTION">期權</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>選股欄位</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=FOFTEN">常用</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FPRICE">價格</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FVOLUME">量能</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FCHIP">籌碼</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FBASIC">基本</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FFINANCE">財務</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=FEVENT">事件</a>
+</li>
+</ul>
+</li>
+<li><a class="search_record" href="javascript:void(0);"><span>搜尋記錄</span></a></li>
+<li class="last">
+<a href="https://github.com/sysjust-xq/XScript_Preset" target="_blank">
+<span title="系統腳本的程式碼集">GitHub</span>
+</a>
+</li>
+</ul>
+</div>
+<script charset="UTF-8" src="/XSHelp/Scripts/menu-jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    (function () {
+        var obj = $.cookie('search_record');
+        if (obj != null && typeof obj == 'string' && obj) {
+            $('.search_record').attr('href', obj);
+        }
+
+        var list = $.cookie($.xshelp.ViewRecookieName);
+        var ary = [];
+        if (list != null) {
+            ary = list.split(",");
+        }
+        ary = $.map(ary, function (n, i) {
+            var item = n.split('*');
+            return { link: $.xshelp.genDJPath('index', { HelpName: encodeURIComponent(item[0]), group: item[1] }), name: item[0] };
+        });
+
+        if (ary.length > 0) {
+            var str = '';
+            $.each(ary, function (i, o) {
+                str += '<li title="' + o['name'] + '"><a href="' + o['link'] + '"><span>' + o['name'] + '</span></a></li>';
+            });
+            $('#cssmenu > ul > li:first').addClass('has-sub').children('ul').append(str);
+        }
+    })();
+</script>
+</div>
+<div class="result">
+<div class="content-txt">
+<div class="content-txt">
+<div class="fnc-title">
+        ReadTicks -  (系統函數)
+        <span class="fnc-tag">價格關係</span>
+</div>
+<div class="section-title">語法：</div>
+<div class="syntax">
+        讀取自上次腳本執行後到目前為止的所有 Tick 成交資料<br/>本次執行更新的資料筆數 = ReadTicks ( 輸出儲存Tick資料的二維陣列, 輸出最後一筆讀到的Tick序號 ) ;<br/><br/>回測在1分鐘頻率時，不支援模擬逐筆洗價
+    </div>
+<div class="section-title">說明：</div>
+<div class="desc">
+<p>請先參考 <a href="https://www.xq.com.tw/lesson/xspractice/%e5%8f%b0%e8%82%a1%e9%80%90%e7%ad%86%e6%92%ae%e5%90%88%e7%9a%84%e7%a9%bf%e5%83%b9tick/">台股逐筆撮合的連續成交Tick序列</a> ，關於腳本洗價方式與MultiTick的概念。</p>
+<h3 id="section"><strong>參數設定說明</strong></h3>
+<p><strong>輸出儲存Tick資料的二維陣列</strong></p>
+<pre><code>array: tick_array[100, 11](0);
+</code></pre>
+<p>必須先宣告一個2維陣列來儲存Tick資料。</p>
+<p>第一維(列)是每次洗價的最大讀取筆數；第二維(行)用來儲存每一筆的成交相關資料，必須 &gt;= 11</p>
+<p><strong>輸出腳本執行完畢的最後一筆Tick序號（<code>Seqno</code>）</strong></p>
+<pre><code>
+
+var: intrabarpersist readtick_cookie(0);
+</code></pre>
+<p>必須先宣告一個<code>intrabarpersist</code>的變數，給 <strong>ReadTicks</strong> 內部使用。</p>
+<h3 id="section-1"><strong>參數輸出內容說明</strong></h3>
+<h4 id="tick_array"><strong>tick_array</strong></h4>
+<p>當 <strong>ReadTicks</strong> 執行完畢後，<code>tick_array</code>的每一列代表一筆成交紀錄（或是合併後的 MultiTick），每一行 (column) 包含該筆紀錄的不同欄位資訊。</p>
+<ul>
+<li><p>每一列成交紀錄</p>
+<p>回傳的 Tick 資料是倒序的，<code>tick_array[1, ...]</code>是離當下最近的那筆成交，<code>tick_array[2, ...]</code>是前一筆，依此類推。</p>
+</li>
+<li><p>每一行欄位資訊</p>
+<pre><code>  tick_array[..., 1] = Date
+  tick_array[..., 2] = Time（MultiTick 合併後，此為序列的統一時間）
+  tick_array[..., 3] = Close（若是 MultiTick，則為序列中最後一筆的成交價）
+  tick_array[..., 4] = Volume（若是 MultiTick，則為序列中最後一筆的成交量。若需總量請參考欄位10）
+  tick_array[..., 5] = 內外盤標記（1: 外盤；-1: 內盤；0: 無法區分）
+  tick_array[..., 6] = Tick序號 （若是 MultiTick，則為序列中最後一筆的序號）
+  tick_array[..., 7] = 成交方式註記（-1: 集合競價；0: 逐筆撮合下的單筆成交；&gt;0: 逐筆撮合下的 MultiTick，數值代表此序列包含的 Tick 筆數）
+  tick_array[..., 8] = 起始Offset（若是MultiTick，為第一筆與最新一筆Tick的相對位置）
+  tick_array[..., 9] = 結束Offset（若是MultiTick，為最後一筆與最新一筆Tick的相對位置。若是單筆成交，此值與欄位 8 相同）
+  tick_array[..., 10] = 成交量加總（該筆成交的總量。若是 MultiTick，此為序列中所有 Tick 的成交量總和）
+  tick_array[..., 11] = 成交值加總（ 該筆成交的總金額(元)。若是 MultiTick，此為序列中所有 Tick 的成交值總和）
+</code></pre>
+</li>
+<li><p>請注意</p>
+<ul>
+<li><p>不完整序列</p>
+<p>若在兩次執行之間，系統只收到了 MultiTick 的一部分，<strong>ReadTicks</strong> 會暫不處理，並將<code>readtick_cookie</code>停在序列開始前的位置，待下次收到完整序列時再一併回傳。</p>
+</li>
+<li><p><code>ReadTicks</code>不會在每次執行前清空<code>tick_array</code></p>
+<p>它只會從第一列開始覆寫資料。若前一次呼叫回傳了 20 筆資料，而本次只回傳 10 筆，則陣列的第 11 至 20 列將會保留舊的資料。因此，務必使用<code>ReadTicks</code>的回傳值來控制迴圈的範圍，避免讀取到過時的資訊。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="readticks"><strong>ReadTicks的回傳值</strong></h3>
+<p>ReadTicks本身可以用一個變數來存取它的輸出值，代表本次執行在<code>tick_array</code>內更新的資料筆數 (即實際填入的行數)</p>
+</div>
+</div>
+<!-- XSHighlight -->
+<link href="https://www.moneydj.com/XSHighlight/main.css" rel="stylesheet"/>
+<script src="https://www.moneydj.com/XSHighlight/main-with-react.js"></script>
+<style>
+    pre {
+        padding: 0;
+        margin: 0;
+        background-color: #ffffff;
+        border: 0;
+    }
+</style>
+<script language="javascript" type="text/javascript">
+    if (XSHighlight) {
+        const nodes = document.querySelectorAll('pre>code');
+        XSHighlight.render(XSHighlight.Viewer, { enableCopy: true }, nodes);
+    }
+</script>
+<script type="text/javascript">
+    var name = $.xshelp.getUrlParam('HelpName');
+    var category = $.xshelp.getUrlParam('group');
+    if (name && category) {
+        $.getJSON($.xshelp.genDJPath(gConfig['site_path'] + 'getf', { a: name, g: category }), null, function (data) {
+            var list = $.cookie($.xshelp.ViewRecookieName);
+            var str = data.name + '*' + category;
+            if (typeof list == 'undefined' || list === null) {
+                $.cookie($.xshelp.ViewRecookieName, str, { secure: true });
+            }
+            else {
+                var ary = list.split(',');
+                var existed = false;
+                $.each(ary, function (i, o) {
+                    var name = o.split('*')[0];
+                    if (name == data.name) {
+                        existed = true;
+                        return false;
+                    }
+                });
+                if (!existed) {
+                    if (ary.length >= 10) {
+                        ary.pop();
+                    }
+                    ary.unshift(str);
+                    $.cookie($.xshelp.ViewRecookieName, ary.join(','), { secure: true });
+                }
+            }
+        });
+    }
+</script>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<center>
+<div class="footer">
+<div class="footer_div">
+<div class="flogo">
+<img src="/XSHelp/Content/Images/png-00-header-xqlite-180-60.png"/>
+</div>
+<div class="ftext">
+                    客服電話：0800-006-098 客服信箱：<a href="mailto:XQservice@XQ.com.tw">XQservice@XQ.com.tw</a><br/>
+                    最佳瀏覽模式：解析度1024*768以上；瀏覽器建議使用 IE9.0以上。<br/>
+                    本站內容僅供參考，本公司不負任何法律責任，投資人若依此以為買賣依據，須自負盈虧之責。<br/>
+                    版權所有嘉實資訊股份有限公司，未經合法授權請勿翻載。 與本網站有關一切糾紛與法律問題，<br/>均依中華民國相關法令解釋及適用之。<br/>
+</div>
+</div>
+</div>
+</center>
+</footer>
+<script type="text/javascript">
+        $(function () {
+            var deheight = document.documentElement.clientHeight;
+            var dheight = document.body.clientHeight;
+            if (deheight > dheight)
+                $('#help-main').css('min-height', deheight - 237);
+            else
+                $('#help-main').css('min-height', dheight - 237);
+        });
+    </script>
+</body>
+</html>

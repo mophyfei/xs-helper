@@ -1,0 +1,506 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async="async" src="https://www.googletagmanager.com/gtag/js?id=GTM-NHPFZR5F"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'GTM-NHPFZR5F');
+    </script>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="IE=EmulateIE8" http-equiv="X-UA-Compatible"/>
+<meta content="website" property="og:type"/>
+<meta content="XS語法" property="og:site_name"/>
+<meta content="https://xshelp.xq.com.tw/XSHelp/Content/Images/png-07-xs-155-90.png" property="og:image"/>
+<meta content="GetField(內建函數) - XS語法" property="og:title"/>
+<meta content='讀取系統內的欄位資料欄位數值 = GetField("欄位名稱")欄位數值 = GetField("欄位名稱", "頻率")欄位數值 = GetField("欄位名稱", "頻率", 是否為還原值)欄位數值 = GetField("欄位名稱", "頻率", 是否為還原值, 設定預設值)傳入欄位名稱、指定的欄位頻率、是否為還原值 以及 設定預設值。如果不傳頻率的話，則讀取目前執行頻率的對應欄位。如果不傳是否為還原值，則讀取原始值資料。' property="og:description"/>
+<link href="/XSHelp/Content/Images/favicon.ico" rel="icon" type="image/ico"/>
+<link href="/XSHelp/Content/css?v=MmAetLgQWTpj53h5C1K54227FFaG9xOGVb-qgk1DRGE1" rel="stylesheet"/>
+<script type="text/javascript">
+        // todo: js 參數替換
+        gConfig = {
+            site_path: "/XSHelp/",
+            site_url: "http://xshelp.xq.com.tw/",
+            djsite_url: "http://jv-testweb/",
+            url_suffix: "",
+            runat_asp: "1",
+            d: ""
+        };
+    </script>
+<script src="/XSHelp/bundles/jquery?v=14H8EzIR27VT10jKdQjUdjivbIr5qhF08VKu4RwT7rI1"></script>
+</head>
+<body>
+<!-- Google Tag Manager -->
+<noscript>
+<iframe height="0" src="//www.googletagmanager.com/ns.html?id=GTM-WMXRLD" style="display:none;visibility:hidden" width="0"></iframe>
+</noscript>
+<script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WMXRLD');</script>
+<!-- End Google Tag Manager -->
+<div class="clearfix" id="container">
+<div id="help-main">
+<div class="menu_side">
+<div class="xq_logo">
+<a href="https://www.xq.com.tw/">
+<img src="/XSHelp/Content/Images/png-xsh-180-60.png"/>
+</a>
+</div>
+<div class="help_logo">
+<img src="/XSHelp/Content/Images/png-07-xs-155-90.png"/>
+</div>
+<script charset="UTF-8" src="/XSHelp/Scripts/util.string.js" type="text/javascript"></script>
+<script charset="UTF-8" src="/XSHelp/Scripts/jmoneyui.autolist.js" type="text/javascript"></script>
+<script charset="UTF-8" src="/XSHelp/Scripts/util.onPos.js" type="text/javascript"></script>
+<script charset="UTF-8" src="/XSHelp/Scripts/util.onRange.js" type="text/javascript"></script>
+<link href="/XSHelp/Content/jmoneyui.autolist.css" rel="stylesheet" type="text/css"/>
+<div class="search">
+<input class="inputarea default" type="text" value="函數、關鍵字或欄位"/>
+<button class="inputSearch"></button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var cookie_key = 'search_record';
+        $('.inputarea').autolist({
+            source: function (req, res) {
+                $.getJSON($.xshelp.genDJPath(gConfig['site_path'] + 'rest', { a: encodeURIComponent(req.term) }), null, function (data) {
+                    var x = $.map(data, function (val, i) {
+                        return {
+                            label: cText(val),
+                            value: $.xshelp.genDJPath(gConfig['site_path'] + 'index', { HelpName: encodeURIComponent(val['name']), group: val['Description'] })
+                        };
+                    });
+                    res(x);
+                });
+            },
+            select: function (event, ui) {
+                var val = $(this).val();
+                var url = $.xshelp.genDJPath(gConfig['site_path'] + 'search', { a: encodeURIComponent(val) });
+                $.cookie(cookie_key, decodeURIComponent(url), { secure: true });
+                window.location = ui.item.value;
+            },
+            directEnter: function (event, ui) {
+                var keyword = $(this).val();
+                if (typeof keyword == 'string' && keyword != '') {
+                    var url = $.xshelp.genDJPath(gConfig['site_path'] + 'search', { a: encodeURIComponent(keyword) });
+                    $.cookie(cookie_key, decodeURIComponent(url), { secure: true });
+                    window.location = url;
+                }
+            },
+            dataMax: 50
+        });
+
+        $('.inputSearch').click(function () {
+            var keyword = $('.inputarea').val();
+            if (typeof keyword == 'string' && keyword != '') {
+                var url = $.xshelp.genDJPath(gConfig['site_path'] + 'search', { a: encodeURIComponent(keyword) });
+                $.cookie(cookie_key, decodeURIComponent(url), { secure: true });
+                window.location = url;
+            }
+        });
+
+        function cText(obj) {
+            if (/^1/.test(obj['categoryid'])) {
+                return obj['name'] + '(' + obj['father'] + ')';
+            }
+            if (/^(2|3)/.test(obj['categoryid'])) {
+                //                var str = (obj['ename'])? obj['ename'] : obj['abbrev'];
+                return obj['name'] + '(' + obj['father'] + ')';
+            }
+            if (/^4/.test(obj['categoryid'])) {
+                return obj['name'] + '(' + obj['father'] + ')';
+            }
+        }
+    })();
+
+</script>
+<div id="cssmenu">
+<ul>
+<li>
+<a href="javascript:void(0);"><span>檢視紀錄</span></a>
+<ul></ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>關鍵字</span></a>
+<ul>
+<li class="even">
+<a href="/XSHelp/lists?a=SKIPWORD">忽略字</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=CONSTANT">常數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=CONTROLFLOW">流程控制</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=DECLARATION">宣告</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>內建函數</span></a>
+<ul>
+<li class="even">
+<a href="/XSHelp/lists?a=GENERALFUNC">一般函數</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=TIMEFUNC">時間函數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=DATEFUNC">日期函數</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=STRINGFUNC">字串函數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=NUMBERFUNC">數學函數</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FIELDFUNC">欄位函數</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=ARRAYFUNC">陣列函數</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TRANSACTIONFUNC">交易函數</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>系統函數</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=PRICEGETFUNC">價格取得</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=PRICECULFUNC">價格計算</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=PRICERELFUNC">價格關係</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TECHINDEXFUNC">技術指標</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=DATERELFUNC">日期相關</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TRANSACTIONRELFUNC">交易相關</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=STATSFUNC">統計分析</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TRENDFUNC">趨勢分析</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=LOGICFUNC">邏輯判斷</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FUTUREFUNC">期權相關</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FREQUENCYFUNC">跨頻率</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=ARRAYSYSFUNC">Array函數</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=VOLUMERELFUNC">量能相關</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>報價欄位</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=QOFTEN">常用</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=QPRICE">價格</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=QVOLUME">量能</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=QFINANCE">財務</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=QMARKET">市場統計</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=QOPTION">期權</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=QFIVE">五檔統計</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>資料欄位</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=TOFTEN">常用</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=TPRICE">價格</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TVOLUME">量能</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=TCHIP">籌碼</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=TBASIC">基本</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TEVENT">事件</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TMARKET">市場統計</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=TOPTION">期權</a>
+</li>
+</ul>
+</li>
+<li class="has-sub">
+<a href="javascript:void(0);"><span>選股欄位</span></a>
+<ul>
+<li class="odd">
+<a href="/XSHelp/lists?a=FOFTEN">常用</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FPRICE">價格</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FVOLUME">量能</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FCHIP">籌碼</a>
+</li>
+<li class="odd">
+<a href="/XSHelp/lists?a=FBASIC">基本</a>
+</li>
+<li class="even">
+<a href="/XSHelp/lists?a=FFINANCE">財務</a>
+</li>
+<li class="last odd">
+<a href="/XSHelp/lists?a=FEVENT">事件</a>
+</li>
+</ul>
+</li>
+<li><a class="search_record" href="javascript:void(0);"><span>搜尋記錄</span></a></li>
+<li class="last">
+<a href="https://github.com/sysjust-xq/XScript_Preset" target="_blank">
+<span title="系統腳本的程式碼集">GitHub</span>
+</a>
+</li>
+</ul>
+</div>
+<script charset="UTF-8" src="/XSHelp/Scripts/menu-jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    (function () {
+        var obj = $.cookie('search_record');
+        if (obj != null && typeof obj == 'string' && obj) {
+            $('.search_record').attr('href', obj);
+        }
+
+        var list = $.cookie($.xshelp.ViewRecookieName);
+        var ary = [];
+        if (list != null) {
+            ary = list.split(",");
+        }
+        ary = $.map(ary, function (n, i) {
+            var item = n.split('*');
+            return { link: $.xshelp.genDJPath('index', { HelpName: encodeURIComponent(item[0]), group: item[1] }), name: item[0] };
+        });
+
+        if (ary.length > 0) {
+            var str = '';
+            $.each(ary, function (i, o) {
+                str += '<li title="' + o['name'] + '"><a href="' + o['link'] + '"><span>' + o['name'] + '</span></a></li>';
+            });
+            $('#cssmenu > ul > li:first').addClass('has-sub').children('ul').append(str);
+        }
+    })();
+</script>
+</div>
+<div class="result">
+<div class="content-txt">
+<div class="content-txt">
+<div class="fnc-title">
+        GetField -  (內建函數)
+        <span class="fnc-tag">欄位函數</span>
+</div>
+<div class="section-title">語法：</div>
+<div class="syntax">
+        讀取系統內的欄位資料<br/>欄位數值 = GetField("欄位名稱")<br/>欄位數值 = GetField("欄位名稱", "頻率")<br/>欄位數值 = GetField("欄位名稱", "頻率", 是否為還原值)<br/>欄位數值 = GetField("欄位名稱", "頻率", 是否為還原值, 設定預設值)<br/>傳入欄位名稱、指定的欄位頻率、是否為還原值 以及 設定預設值。<br/>如果不傳頻率的話，則讀取目前執行頻率的對應欄位。<br/>如果不傳是否為還原值，則讀取原始值資料。
+    </div>
+<div class="section-title">說明：</div>
+<div class="desc">
+<p>交易者在制定交易策略時，往往除了開高低收成交量之外，也會想要利用交易市場內獨特的資料，例如台股市場的融資券及法人的進出資料，來作為交易策略的運算基礎。為了讓交易者可以如願以償，XS語法內提供了GetField這個函數，來協助交易者完成這樣的工作。</p>
+<p>GetField函數可以傳入四個參數:</p>
+<ul>
+<li>第一個參數是欄位的中文或是英文名稱，</li>
+<li>第二個參數則是欄位的頻率，如果省略這個參數的話，則會依照目前腳本執行的頻率來取得對應的資料</li>
+<li>第三個參數則為「是否為還原值」運用 <a href="article.aspx?a=Adjusted">Adjusted參數</a> 來設定要讀取的是原始資料，還是還原資料。</li>
+<li>第四個參數則是「設定預設值」運用Default參數來設定若遇到此欄位對應K棒沒有資料的狀況要回傳的數值。</li>
+</ul>
+<p>以下是一個簡單的範例:</p>
+<pre><code>Value1 = GetField("收盤價");　// value1 為取得目前腳本執行頻率的收盤價。
+Value2 = GetField("收盤價", "1");　// value2 為取得原始1分鐘頻率的收盤價。
+Value3 = GetField("收盤價", "1", Adjusted:=true);　// value3 為取得還原1分鐘頻率的收盤價。
+Value4 = GetField("本益比", "D", Default := 0);    // 當運算的K棒沒有對應的本益比時，則回傳0。
+</code></pre>
+<p>設定預設值並無法解決所有的欄位錯誤，例如 取未來值 (ex. GetField("Close", "1", Default:=0)[-1]) 以及 不支援的欄位/頻率 (ex.GetField("本益比", "Y", Default := 0)) 還是會發生錯誤。</p>
+<p>GetField可以使用的欄位分成兩種類型:</p>
+<ul>
+<li>第一種是資料欄位，支援指標腳本、警示腳本以及交易腳本。</li>
+<li>第二種是選股欄位，支援選股腳本。</li>
+</ul>
+<p>使用者可以點選XS編輯器內的編輯選單/插入欄位選項，或是按快捷鍵F7，進入插入欄位畫面內搜尋或是瀏覽需要的欄位，從插入欄位畫面內也可以找到欄位的說明等資訊。</p>
+<p>GetField欄位除了可以取得某個欄位在目前K棒的數值之外，也可以取得某個欄位的前期值:</p>
+<pre><code>If Close &gt; Close[1] And 
+   GetField("外資買賣超") &gt; GetField("外資買賣超")[1] 
+Then 
+   Ret = 1;
+</code></pre>
+<p>在上述警示範例內使用GetField("外資買賣超")來讀取外資的買賣超張數。注意到<strong>GetField("外資買賣超")[1]<strong>的用法：GetField函數的回傳值是跟</strong>Close</strong>一樣是一個序列，可以使用[]的語法來讀取前期值。</p>
+<p>資料欄位支援Tick、分鐘、日、週、月、季、半年、年、還原日、還原月、還月季等頻率，視欄位內容決定支援的頻率，在插入欄位的畫面中會列出欄位支援的商品及頻率。</p>
+<p>選股腳本不支援Tick、分鐘頻率，同樣也能在呼叫GetField時指定引用的資料頻率，</p>
+<p>當使用者選擇「外資買賣超」欄位時，頻率選項內會列出這個欄位可以被使用的頻率：日、週、月。如果使用者選擇週的話，則按插入後編輯器內會出現以下的程式碼:</p>
+<pre><code>GetField("外資買賣超","W");
+</code></pre>
+<p>注意到GetField的第二個參數傳入了 "W"，代表要抓取週線頻率。當GetField函數內傳入了指定頻率時，則不管腳本執行的頻率是什麼，系統一定會回傳這個欄位指定的頻率內容。</p>
+<p>以下是GetField的頻率代碼清單：</p>
+<ul>
+<li>Tick: 1 Tick</li>
+<li>1: 1分鐘。也可使用其他數字（1、2、3、5、10、15、20、30、45、60、90、120、135、180、240），代表對應的分鐘線資料</li>
+<li>D: 日資料</li>
+<li>W: 週資料</li>
+<li>M: 月資料</li>
+<li>Q: 季資料</li>
+<li>H: 半年資料</li>
+<li>Y: 年資料</li>
+<li>AD: 還原日資料</li>
+<li>AW: 還原週資料</li>
+<li>AM: 還原月資料</li>
+</ul>
+<p>如果在頻率選項內選擇「<strong>預設</strong>」的話，則產生的GetField程式碼內將不會傳入第二個參數。這表示當GetField執行時回傳的資料頻率會跟腳本執行的頻率是一樣的。</p>
+<p>如果GetField函數內傳入了頻率參數，而且這個頻率跟目前腳本執行的頻率不一樣的話，則我們稱這種情形為<strong>跨頻率</strong>。</p>
+<pre><code>If Close &gt; Close[1] and
+   GetField("外資買賣超","W") &gt; GetField("外資買賣超","W") [1] then ret = 1;
+</code></pre>
+<p>上述選股腳本內我們使用日頻率來執行，所以Close, Close[1]都是日頻率的資料，而GetField("外資買賣超","W")則是週頻率的資料。 當腳本執行時遇到要讀取不同頻率的資料時，系統會使用以下的方式來決定不同頻率的資料的日期:</p>
+<p>目前腳本執行的頻率為主頻率，以上例而言主頻率為日頻率，如果要讀取週頻率資料時，以日資料的計算日期來取得當下的週資料；例如，台積電(2330) 在2018/07/16~2018/07/20期間中：</p>
+<ul>
+<li>週一07/16的週線外資買賣超為-2071張、週線開盤價為224.5元、週線最高價為225元、週線最低價為223.5元、週線收盤價為223.5元、週線成交量為16107張。</li>
+<li>週二07/17的週線外資買賣超為-3371張、週線開盤價為224.5元、週線最高價為225元、週線最低價為221元、週線收盤價為221.5元、週線成交量為38661張。</li>
+<li>週三07/18的週線外資買賣超為-1733張、週線開盤價為224.5元、週線最高價為225元、週線最低價為221元、週線收盤價為223元、週線成交量為84464張。</li>
+<li>週四07/19的週線外資買賣超為6021張、週線開盤價為224.5元、週線最高價為227元、週線最低價為221元、週線收盤價為224.5元、週線成交量為128440張。</li>
+<li>週五07/20的週線外資買賣超為43423張、週線開盤價為224.5元、週線最高價為237.5元、週線最低價為221元、週線收盤價為237.5元、週線成交量為232092張。</li>
+</ul>
+<p>如果依照上述邏輯所對應出來的期別資料不存在的話，則系統會依照資料對位(DataAlign)的設定方式來決定如何處理：</p>
+<ul>
+<li>如果是絕對對位的話，則腳本執行時會發生錯誤(資料不存在)，</li>
+<li>如果是遞補對位的話，則系統會往前尋找有資料的期別。以上述為例，假如日期為2018/07/16日，腳本內要去讀取週資料時，依照日期對位邏輯，系統會先找尋2018/07/16日的週資料，如果資料不存在的話則會往前找尋2018/07/13日的週資料，如果還不存在的話則會往前繼續尋找，直到找到為止。</li>
+</ul>
+<p>通常在選股腳本內會使用遞補對位(預設值)來來處理財報/營收等資料期別比交易價位資料期別落後公佈的情形。</p>
+<p>其他與欄位相關的函數還有 <a href="api?a=getfielddate&amp;b=bif">GetFieldDate函數</a>以及<a href="api?a=getquote&amp;b=bif">GetQuote函數</a>。</p>
+<p>也可以利用<a href="api?a=GetSymbolField&amp;b=bif">GetSymbolField</a>取得指定商品的欄位資料（<strong>跨商品</strong>），語法和GetField類似，只需要在第一個參數加上指定商品的SymbolID。</p>
+</div>
+</div>
+<!-- XSHighlight -->
+<link href="https://www.moneydj.com/XSHighlight/main.css" rel="stylesheet"/>
+<script src="https://www.moneydj.com/XSHighlight/main-with-react.js"></script>
+<style>
+    pre {
+        padding: 0;
+        margin: 0;
+        background-color: #ffffff;
+        border: 0;
+    }
+</style>
+<script language="javascript" type="text/javascript">
+    if (XSHighlight) {
+        const nodes = document.querySelectorAll('pre>code');
+        XSHighlight.render(XSHighlight.Viewer, { enableCopy: true }, nodes);
+    }
+</script>
+<script type="text/javascript">
+    var name = $.xshelp.getUrlParam('HelpName');
+    var category = $.xshelp.getUrlParam('group');
+    if (name && category) {
+        $.getJSON($.xshelp.genDJPath(gConfig['site_path'] + 'getf', { a: name, g: category }), null, function (data) {
+            var list = $.cookie($.xshelp.ViewRecookieName);
+            var str = data.name + '*' + category;
+            if (typeof list == 'undefined' || list === null) {
+                $.cookie($.xshelp.ViewRecookieName, str, { secure: true });
+            }
+            else {
+                var ary = list.split(',');
+                var existed = false;
+                $.each(ary, function (i, o) {
+                    var name = o.split('*')[0];
+                    if (name == data.name) {
+                        existed = true;
+                        return false;
+                    }
+                });
+                if (!existed) {
+                    if (ary.length >= 10) {
+                        ary.pop();
+                    }
+                    ary.unshift(str);
+                    $.cookie($.xshelp.ViewRecookieName, ary.join(','), { secure: true });
+                }
+            }
+        });
+    }
+</script>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<center>
+<div class="footer">
+<div class="footer_div">
+<div class="flogo">
+<img src="/XSHelp/Content/Images/png-00-header-xqlite-180-60.png"/>
+</div>
+<div class="ftext">
+                    客服電話：0800-006-098 客服信箱：<a href="mailto:XQservice@XQ.com.tw">XQservice@XQ.com.tw</a><br/>
+                    最佳瀏覽模式：解析度1024*768以上；瀏覽器建議使用 IE9.0以上。<br/>
+                    本站內容僅供參考，本公司不負任何法律責任，投資人若依此以為買賣依據，須自負盈虧之責。<br/>
+                    版權所有嘉實資訊股份有限公司，未經合法授權請勿翻載。 與本網站有關一切糾紛與法律問題，<br/>均依中華民國相關法令解釋及適用之。<br/>
+</div>
+</div>
+</div>
+</center>
+</footer>
+<script type="text/javascript">
+        $(function () {
+            var deheight = document.documentElement.clientHeight;
+            var dheight = document.body.clientHeight;
+            if (deheight > dheight)
+                $('#help-main').css('min-height', deheight - 237);
+            else
+                $('#help-main').css('min-height', dheight - 237);
+        });
+    </script>
+</body>
+</html>
