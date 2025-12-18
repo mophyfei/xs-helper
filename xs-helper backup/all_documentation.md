@@ -1,6 +1,6 @@
 # XS Helper Complete Documentation
 
-Generated on 2025-12-10
+Generated on 2025-12-18
 
 ---
 ## BarAdjusted
