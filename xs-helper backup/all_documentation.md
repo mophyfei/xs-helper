@@ -1,6 +1,6 @@
 # XS Helper Complete Documentation
 
-Generated on 2026-01-12
+Generated on 2026-01-26
 
 ---
 ## BarAdjusted
@@ -24289,6 +24289,22 @@ DiffUpDownVolume為分時漲跌成交量的函數，
 | 可用頻率 | 季 年 |
 | 支援商品 | 台股 美(股票) |
 | 說明 | 「損益表」中「加權平均股數」項目。 加權平均股數是依股數流通期間佔會計期間的比例計算之股數。 |
+
+---
+## 合約負債
+**Path:** 選股欄位 > 財務
+
+|  |  |
+| --- | --- |
+| 欄位名稱 | 合約負債 (選股欄位) |
+| 語法 | ``` Value1 = GetField("合約負債"); Value1 = GetField("ContractLiabilities"); Value1 = GetField("預收款項"); Value1 = GetField("AdvancesCustomers"); ``` |
+| 欄位分類 | 財務 |
+| 單位 | 百萬 |
+| 格式 | 數值 |
+| 支援腳本 | 指標 選股 警示 交易 函數 |
+| 可用頻率 | 季 年 |
+| 支援商品 | 台股 |
+| 說明 | 「資產負債表」中「合約負債」項目。 原名稱為預收款項。 金融股不適用此欄位。 |
 
 ---
 ## 員工平均營業額_千元_
