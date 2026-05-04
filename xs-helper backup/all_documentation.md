@@ -1,6 +1,6 @@
 # XS Helper Complete Documentation
 
-Generated on 2026-04-27
+Generated on 2026-05-04
 
 ---
 ## XS-WRITER-GUIDE
